@@ -27,12 +27,14 @@
       }
       $updateb = "UPDATE users SET balance = $budget - $temp WHERE id='$id'";
       if(mysqli_query($conn, $updateb)){
-        $extractb = "SELECT balance FROM users WHERE id='$id'";
+        $extractb = "SELECT balance, currentbudget FROM users WHERE id='$id'";
         $result = mysqli_query($conn, $extractb);
         $row = mysqli_fetch_assoc($result);
         $balance = $row['balance'];
+        $budget = $row['currentbudget'];
       }
     }
+    $p = round(($balance/$budget)*100);
 ?>
 <html>
     <head>
@@ -43,6 +45,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="public/css/styles.css">
     </head>
@@ -57,6 +60,13 @@
       <div class="container"
         <img src="public/images/balance.png" alt="balance" border="0" width="50" height="50">
         <h4>BALANCE: <?=$balance?></h4><br><br>
+        <div class="progress">
+          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<?=$p?>"
+            aria-valuemin="0" aria-valuemax="100" style="width:<?=$p?>%">
+            <?=$p?>% Spent
+          </div>
+        </div>
+        <br><br>
         <table>
           <tr>
             <th><a href="add.php"><img src="public/images/add.png" alt="add" border="0" width="100" height="100">
