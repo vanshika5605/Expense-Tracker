@@ -34,7 +34,7 @@
         $budget = $row['currentbudget'];
       }
     }
-    $p = round(($balance/$budget)*100);
+    $p = round((($budget-$balance)/$budget)*100);
 ?>
 <html>
     <head>
